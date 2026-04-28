@@ -204,16 +204,15 @@ jobs:
         make defconfig
         make download -j8
         
-    - name: Build LLVM host tools
+    - name: Fix LLVM for BPF
       run: |
-        cd openwrt
         mkdir -p staging_dir/host/bin
-        ln -sf /usr/bin/clang staging_dir/host/bin/clang
-        ln -sf /usr/bin/clang++ staging_dir/host/bin/clang++
-        ln -sf /usr/bin/llc staging_dir/host/bin/llc
-        ln -sf /usr/bin/llvm-strip staging_dir/host/bin/llvm-strip
-        ln -sf /usr/bin/llvm-dis staging_dir/host/bin/llvm-dis
-        ln -sf /usr/bin/opt staging_dir/host/bin/opt
+        ln -sf $(which clang) staging_dir/host/bin/clang
+        ln -sf $(which clang++) staging_dir/host/bin/clang++
+        ln -sf $(which llc) staging_dir/host/bin/llc
+        ln -sf $(which llvm-strip) staging_dir/host/bin/llvm-strip
+        ln -sf $(which llvm-dis) staging_dir/host/bin/llvm-dis
+        ln -sf $(which opt) staging_dir/host/bin/opt
     
     - name: Build OpenWrt
       id: compile
