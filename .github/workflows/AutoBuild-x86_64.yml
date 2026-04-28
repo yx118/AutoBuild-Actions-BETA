@@ -92,7 +92,13 @@ jobs:
         sudo -E systemctl daemon-reload
         sudo -E apt -y autoremove --purge
         sudo -E apt clean
-
+        
+    - name: Check clang
+      run: |
+        which clang || true
+        clang --version || true
+        ls /usr/bin/clang*
+    
     - name: Checkout
       uses: actions/checkout@main
 
