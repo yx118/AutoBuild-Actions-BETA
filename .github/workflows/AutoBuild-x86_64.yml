@@ -99,23 +99,52 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo -E docker image prune -f
-        sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
+        sudo -E docker image prune -af
+        sudo -E rm -rf \
+          /usr/share/dotnet \
+          /usr/local/lib/android \
+          /opt/ghc
         sudo -E apt-mark hold grub-efi-amd64-signed
         sudo -E apt update
-        sudo -E apt -y purge azure-cli* docker* ghc* zulu* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap*
-        sudo -E apt -y full-upgrade
-        sudo -E apt -y install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler flex gawk gcc-multilib g++-multilib gettext genisoimage git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool npm llvm lrzsz msmtp ninja-build p7zip p7zip-full patch pkgconf python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev flex python-is-python3
-        sudo -E apt install -y clang llvm lld pahole libelf-dev
-        sudo -E bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        sudo -E apt remove -y libnode-dev nodejs
-        sudo -E apt --fix-broken install
+        sudo -E apt -y purge \
+          azure-cli* \
+          ghc* \
+          zulu* \
+          firefox \
+          google* \
+          powershell* \
+          mongodb* \
+          mysql* \
+          php* \
+          dotnet* \
+          snap*
+        sudo -E apt -y autoremove --purge
+        sudo -E apt install -y \
+          ack antlr3 asciidoc autoconf automake autopoint \
+          binutils bison build-essential bzip2 ccache \
+          cmake cpio curl device-tree-compiler flex gawk \
+          gcc-multilib g++-multilib gettext genisoimage git \
+          gperf haveged help2man intltool libc6-dev-i386 \
+          libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev \
+          libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev \
+          libncursesw5-dev libpython3-dev libreadline-dev \
+          libssl-dev libtool lrzsz msmtp ninja-build p7zip \
+          p7zip-full patch pkgconf python3 \
+          python3-pyelftools python3-setuptools qemu-utils \
+          rsync scons squashfs-tools subversion swig texinfo \
+          uglifyjs unzip vim wget xmlto xxd zlib1g-dev \
+          python-is-python3 flex
+        curl -fsSL https://apt.llvm.org/llvm.sh | sudo -E bash -s -- 18
+        sudo -E apt install -y \
+          clang-18 llvm-18 lld-18 pahole
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 100
+        sudo update-alternatives --install /usr/bin/llvm-strip llvm-strip /usr/bin/llvm-strip-18 100
         curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
         sudo -E apt install -y nodejs
-        sudo -E npm install -g pnpm
+        sudo -E npm install -g pnpm@8
         sudo -E systemctl daemon-reload
-        sudo -E apt -y autoremove --purge
-        sudo -E apt clean
+
+sudo -E apt clean
 
     - name: Load Custom Variables
       run: |
