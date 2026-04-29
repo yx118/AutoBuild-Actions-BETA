@@ -144,6 +144,9 @@ jobs:
         sudo -E npm install -g pnpm@8
         sudo -E systemctl daemon-reload
         sudo -E apt clean
+        go version
+        node -v
+        pnpm -v
 
     - name: Load Custom Variables
       run: |
