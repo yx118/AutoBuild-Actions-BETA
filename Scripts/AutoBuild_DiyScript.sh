@@ -158,9 +158,9 @@ EOF
 				git clone https://github.com/QiuSimons/luci-app-daed package/dae
 				rm -rf ${FEEDS_PKG}/daed
 				rm -r ${FEEDS_LUCI}/luci-app-daed
-				cd package/dae
-				git checkout e7040afc92a3bff4b9e4fca381e7e14a7be1b75e
-				cd -
+				#cd package/dae
+				#git checkout e7040afc92a3bff4b9e4fca381e7e14a7be1b75e
+				#cd -
 				
 				sed -i 's/^local excluded_domain = {.*/local excluded_domain = {}/' package/passwall/openwrt-passwall/luci-app-passwall/root/usr/share/passwall/rule_update.lua
 				
