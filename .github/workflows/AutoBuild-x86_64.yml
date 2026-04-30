@@ -134,18 +134,22 @@ jobs:
           rsync scons squashfs-tools subversion swig texinfo \
           uglifyjs unzip vim wget xmlto xxd zlib1g-dev \
           python-is-python3 flex
-        curl -fsSL https://apt.llvm.org/llvm.sh | sudo -E bash -s -- 18
-        sudo -E apt install -y \
-          clang-18 llvm-18 lld-18 pahole
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 100
-        sudo update-alternatives --install /usr/bin/llvm-strip llvm-strip /usr/bin/llvm-strip-18 100
-        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-        sudo -E apt install -y nodejs
-        sudo -E npm install -g pnpm@10
-        sudo -E systemctl daemon-reload
+        sudo -E apt-get install -y clang llvm npm
+        sudo -E npm install -g pnpm
+        # curl -fsSL https://apt.llvm.org/llvm.sh | sudo -E bash -s -- 18
+        # sudo -E apt install -y clang-18 llvm-18 lld-18 pahole
+        # sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 100
+        # sudo update-alternatives --install /usr/bin/llvm-strip llvm-strip /usr/bin/llvm-strip-18 100
+        # curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+        # sudo -E apt install -y nodejs
+        # sudo -E npm install -g pnpm@10
+        # sudo -E systemctl daemon-reload
         sudo -E apt clean
         node -v
         pnpm -v
+        df -h
+        free -m
+        echo "CPU Cores: $(nproc)"
 
     - name: Load Custom Variables
       run: |
@@ -213,8 +217,6 @@ jobs:
 
     - name: Run Diy Scripts
       run: |
-        echo "Free space:"
-        df -h
         chmod +x Scripts/AutoBuild_*.sh
         cd openwrt
         if [ "${{ env.CACHE_ACCELERATE }}" == true ]
