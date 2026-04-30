@@ -158,10 +158,10 @@ EOF
 				git clone https://github.com/immortalwrt/packages /tmp/packages
 				git clone https://github.com/immortalwrt/luci /tmp/luci
 				#git clone https://github.com/QiuSimons/luci-app-daed package/dae
-				rm -rf ${FEEDS_PKG}/daed
-				rm -rf ${FEEDS_LUCI}/luci-app-daed
-				cp -a /tmp/packages/net/daed ${FEEDS_PKG}/
-				cp -a /tmp/luci/applications/luci-app-daed ${FEEDS_LUCI}/
+				rm -rf feeds/packages/net/daed
+				rm -rf feeds/luci/applications/luci-app-daed
+				cp -a /tmp/packages/net/daed feeds/packages/net/daed
+				cp -a /tmp/luci/applications/luci-app-daed feeds/luci/applications/luci-app-daed
 				#cd package/dae
 				#git checkout e7040afc92a3bff4b9e4fca381e7e14a7be1b75e
 				#cd -
