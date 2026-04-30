@@ -141,7 +141,7 @@ jobs:
         sudo update-alternatives --install /usr/bin/llvm-strip llvm-strip /usr/bin/llvm-strip-18 100
         curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
         sudo -E apt install -y nodejs
-        sudo -E npm install -g pnpm@8
+        sudo -E npm install -g pnpm@10
         sudo -E systemctl daemon-reload
         sudo -E apt clean
         node -v
